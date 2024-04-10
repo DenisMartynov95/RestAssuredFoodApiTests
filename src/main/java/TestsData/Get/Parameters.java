@@ -20,11 +20,11 @@ public class Parameters {
 
     // Для второго теста
 
-    public static Map<String, Object> getDefaultParam2() {
+    public static final String MAX_CALORIES = "maxCalories";
+
+    public static Map<String, Object> getParam2() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(QUERY, "pasta");
-        parameters.put(MAX_FAT, 25);
-        parameters.put(NUMBER, 2);
+        parameters.put(MAX_CALORIES, 1);
         return parameters;
     }
 

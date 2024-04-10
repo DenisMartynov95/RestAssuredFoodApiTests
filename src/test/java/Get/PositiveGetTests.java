@@ -1,18 +1,18 @@
 package Get;
 
 import Asserts.Get.AssertFirstTest;
-import ExtractFromJson.FirstTest.Result;
+import Asserts.Get.AssertSecondTest;
+import ExtractFromJson.GetMethods.FirstTest.Result;
+import ExtractFromJson.GetMethods.FirstTest.Root;
 import TestsData.Get.Parameters;
-import com.google.gson.Gson;
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import TestsData.AuthKey;
-import Asserts.Get.AssertFirstTest;
 
 import java.util.Map;
 
@@ -33,13 +33,14 @@ public class PositiveGetTests {
     @Test
     @Step("GET запрос Search Recipes")
     @DisplayName("Комплексный поиск рецептов по параметрам")
+    @Description("Так же проверяю какие данные пришли и сравниваю с ассертом ответ")
     public void complexSearch() {
         try {
             Map<String, Object> params1 = Parameters.getParam1();
 
             Response response = given()
                     .header("x-api-key", AuthKey.getAuthKey())
-                    .param(params1.toString())
+                    .params(params1)
                     .and()
                     .get("recipes/complexSearch");
             response.then().assertThat().statusCode(200);
@@ -49,22 +50,57 @@ public class PositiveGetTests {
                 System.out.println("Статус код: " + response.getStatusCode());
             }
 
-            // Проблема с тем, что будто бы не кладутся приходящие данные в Result, надо исправить
-            Result result = response.body().as(Result.class);
+            ExtractFromJson.GetMethods.FirstTest.Root root = response.body().as(ExtractFromJson.GetMethods.FirstTest.Root.class);
+
+            Result result = root.getResults().get(0); // Распаковываю нужный мне вложенный в Root класс Result
+//                  Логирую десериализацию
+//                  Gson gson = new Gson();
+//                  String json = gson.toJson(root.getResults());
+//                  System.out.println(json);
+
             assertEquals(AssertFirstTest.getId(), result.getId());
             assertEquals(AssertFirstTest.getTitle(), result.getTitle());
             System.out.println(result.getId() + " " + result.getTitle());
 
-//            Result result = response.body().as(Result.class);
-//            Result result = response.body().as(Result.class)
-//            assertNotNull(result);
-//            Gson gson = new Gson();
-//            String json = gson.toJson("Наименование блюда: " + result.getTitle() + " id Блюда: " + result.getId());
-//            System.out.println(json);
+
 
         } catch (Exception e) {
             System.out.println("Тест №1 завершился с ошибкой: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
+    @Test
+    @Step("GET запрос findByNutrients")
+    @DisplayName("Поиск блюда по параметру НУТРИЕНТЫ")
+    @Description("Так же проверяю какие данные пришли и сравниваю с ассертом ответ")
+    public void findByNutrients() {
+        try {
+            Map <String, Object> params2 = Parameters.getParam2();
+
+            Response response = given()
+                    .header("x-api-key", AuthKey.getAuthKey())
+                    .params(params2)
+                    .and()
+                    .get("recipes/findByNutrients");
+            response.then().statusCode(200);
+
+            if (response.getStatusCode() == 200) {
+                System.out.println("Тест №2 прошел успешно");
+                System.out.println("Статус код: " + response.getStatusCode());
+            }
+
+            ExtractFromJson.GetMethods.SecondTest.Root root = response.body().as(ExtractFromJson.GetMethods.SecondTest.Root.class);
+            assertEquals(AssertSecondTest.getId(), root.getId());
+            assertEquals(AssertSecondTest.getCalories(), root.getCalories());
+            assertEquals(AssertSecondTest.getTitle(), root.getTitle());
+            System.out.println(root.getId() + " " + root.getCalories() + " " + root.getTitle());
+
+        } catch (Exception e) {
+            System.out.println("Тест №2 завершился с ошибкой: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
 }

@@ -1,11 +1,11 @@
-package ExtractFromJson.FirstTest;
+package ExtractFromJson.GetMethods.FirstTest;
 
 public class Result {
-    private int id;
-    private String title;
-    private String image;
-    private String imageType;
-    private Nutrition nutrition;
+    private  int id;
+    private  String title;
+    private  String image;
+    private  String imageType;
+    private  Nutrition nutrition;
 
     public int getId() {
         return id;

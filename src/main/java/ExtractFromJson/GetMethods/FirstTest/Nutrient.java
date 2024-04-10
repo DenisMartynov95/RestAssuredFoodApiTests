@@ -1,4 +1,4 @@
-package ExtractFromJson.FirstTest;
+package ExtractFromJson.GetMethods.FirstTest;
 
 public class Nutrient{
     private String name;
@@ -15,6 +15,18 @@ public class Nutrient{
 
     public String getUnit() {
         return unit;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Nutrient(String name, double amount, String unit) {
