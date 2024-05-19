@@ -28,4 +28,22 @@ public class Parameters {
         return parameters;
     }
 
+    // Для третьего теста
+
+    public static final String INGREDIENTS = "ingredients";
+    public static final String LIMIT_LICENSE = "limitLicense";
+    public static final String RANKING = "ranking";
+    public static final String IGNORE_PANTRY = "ignorePantry";
+
+    public static Map<String, Object> getParam3() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(INGREDIENTS, "apples,flour,sugar");
+        parameters.put(NUMBER, "5");
+        parameters.put(LIMIT_LICENSE, "true");
+        parameters.put(RANKING, "2");
+        parameters.put(IGNORE_PANTRY, "true");
+        return parameters;
+    }
+
+
 }
