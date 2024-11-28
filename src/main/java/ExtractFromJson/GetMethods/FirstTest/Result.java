@@ -7,7 +7,7 @@ public class Result {
     private  String imageType;
     private  Nutrition nutrition;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

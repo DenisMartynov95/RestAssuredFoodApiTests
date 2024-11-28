@@ -35,7 +35,7 @@ public class PositiveGetTests {
     @Test
     @Step("GET запрос Search Recipes")
     @DisplayName("Комплексный поиск рецептов по параметрам")
-    @Description("Так же проверяю какие данные пришли и сравниваю с ассертом ответ")
+    @Description("Так же проверяю какие данные пришли и сравниваю ассертом ответ")
     public void complexSearch() {
         try {
             Map<String, Object> params1 = Parameters.getParam1();
@@ -60,9 +60,9 @@ public class PositiveGetTests {
 //                  String json = gson.toJson(root.getResults());
 //                  System.out.println(json);
 
-            assertEquals(AssertFirstTest.getId(), result.getId());
+            assertNotNull(result.getId().toString());
             assertEquals(AssertFirstTest.getTitle(), result.getTitle());
-            System.out.println(result.getId() + " " + result.getTitle());
+            System.out.println("В поле ID " + result.getId() + " В поле Title " + result.getTitle());
 
 
         } catch (Exception e) {

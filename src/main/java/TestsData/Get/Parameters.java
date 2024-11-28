@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Parameters {
 
-    // Для первого теста
+    // Для запроса первого теста
     public static final String QUERY = "query";
     public static final String MAX_FAT = "maxFat";
     public static final String NUMBER = "number";
