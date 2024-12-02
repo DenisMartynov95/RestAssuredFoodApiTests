@@ -47,11 +47,6 @@ public class PositiveGetTests {
                     .get("recipes/complexSearch");
             response.then().assertThat().statusCode(200);
 
-            if (response.getStatusCode() == 200) {
-                System.out.println("Тест №1 прошел успешно");
-                System.out.println("Статус код: " + response.getStatusCode());
-            }
-
             ExtractFromJson.GetMethods.FirstTest.Root root = response.body().as(ExtractFromJson.GetMethods.FirstTest.Root.class);
 
             Result result = root.getResults().get(0); // Распаковываю нужный мне вложенный в Root класс Result
@@ -59,11 +54,18 @@ public class PositiveGetTests {
 //                  Gson gson = new Gson();
 //                  String json = gson.toJson(root.getResults());
 //                  System.out.println(json);
-
-            assertNotNull(result.getId().toString());
-            assertEquals(AssertFirstTest.getTitle(), result.getTitle());
-            System.out.println("В поле ID " + result.getId() + " В поле Title " + result.getTitle());
-
+            if (response.getStatusCode() == 200) {
+                    assertNotNull(result.getId().toString());
+                    assertEquals(AssertFirstTest.getTitle(), result.getTitle());
+                    assertEquals(AssertFirstTest.cfCacheStatus, response.getHeader("cf-cache-status"));
+                    assertEquals(AssertFirstTest.transferEncoding, response.getHeader("Transfer-Encoding"));
+                System.out.println("Тест №1 прошел успешно");
+                System.out.println("В поле ID " + result.getId() + " В поле Title " + result.getTitle());
+                System.out.println("Статус код: " + response.getStatusCode());
+                System.out.println("Важные хеддеры совпадают: " +  "cf-cache-status : " + response.getHeader("cf-cache-status") + " Transfer-Encoding " + response.getHeader("Transfer-Encoding"));
+            } else {
+                System.out.println("Тест complexSearch провален!");
+            }
 
         } catch (Exception e) {
             System.out.println("Тест №1 завершился с ошибкой: " + e.getMessage());
